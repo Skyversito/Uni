@@ -28,7 +28,7 @@ void MostrarEmpleados(struct trabajador* trabajadores, int cantidad);
 void OrdenarEmpleados(struct trabajador* trabajadores, int cantidad);
 void Rendimientos(struct trabajador* trabajadores, int cantidad);
  void EliminarEmpleado (struct trabajador* trabajadores ,int cantidad);
-float SueldoTotal (struct trabajador* trabajadores , int cantidad);
+void SueldoTotal (struct trabajador* trabajadores , int cantidad);
 void CacheEmpleados(struct trabajador* trabajadores, int cantidad); 
 
 int main(){ 
@@ -138,6 +138,12 @@ int main(){
 			
 			break;
 			
+		case 7:
+			SueldoTotal(trabajadores,cantidad);
+			printf("\n\033[38;5;28mPara volver al menu presione '0'\033[0m\n");
+			scanf("%hd" , &vuelta_menu);
+			borrar_pantalla;
+		break;	
 		case 8:
 		     //NO TERMINADO
 			borrar_pantalla;
@@ -337,6 +343,24 @@ void Rendimientos(struct trabajador* trabajadores, int cantidad){
 	
 }
 
+void SueldoTotal (struct trabajador* trabajadores , int cantidad){
+	
+	float total = 0;
+	
+	if(cantidad != 0)
+	{
+		for(short i = 0; i<cantidad; i++)
+		{
+			if(trabajadores[i].eliminado == 1){
+				total += trabajadores[i].sueldo;
+			}
+			
+		}
+	}
+	printf("Sueldo total de todos los empleados: %.2f\n",total);
+	//return total;
+}
+
 void EliminarEmpleado (struct trabajador* trabajadores,int cantidad){
 	short aux_ID; 
 	char respuesta;
@@ -374,6 +398,7 @@ void EliminarEmpleado (struct trabajador* trabajadores,int cantidad){
 void CacheEmpleados(struct trabajador* trabajadores, int cantidad){
     //NO TERMINADO
 	long aux_DNI;
+	short DNI_encontrado;
 	
 	if(cantidad==0) 
 	{ 
@@ -400,9 +425,38 @@ void CacheEmpleados(struct trabajador* trabajadores, int cantidad){
 		}
 		
 	}
-	printf("\nIngrese DNI del empelado que quiera volver a incorporar:\n ");
+	printf("\n\033[38;5;22mIngrese DNI del empelado que quiera volver a incorporar o ingrese 0 para volver al menu:\n  \033[0m ");
+	scanf("%ld" , &aux_DNI);
+	if(aux_DNI){
+		for(int i=0;i < cantidad;i++){ 
+			DNI_encontrado = 0;
+		
+			if(aux_DNI == trabajadores[i].dni){ 
+				DNI_encontrado = 1;
+				printf("\nA continuacion reingrese los datos: "); 
+				trabajadores[i]=RegistrarEmpleado(trabajadores, cantidad); 
+				printf("\nDatos actualizados!\n\n"); 
+				return; 
+			} 
+		
+		} 
 	
-	return; 
+	}
+	if(DNI_encontrado != 1 && aux_DNI != 0){
+	
+			borrar_pantalla;
+			printf("\n\033[38;5;1mNo se encontro el DNI buscado\033[0m\n\n");
+			
+		
+	}
+	else if(aux_DNI==0){
+		borrar_pantalla;
+		return;
+	}
+		
+	
+	
+	
 	
 }
 
