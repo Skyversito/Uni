@@ -5,7 +5,6 @@
 #include <locale.h>
 #include <windows.h>
 
-
 //Prototipo 1
 struct trabajador 
 { 
@@ -17,24 +16,23 @@ struct trabajador
 	char ZonaResidencia[16]; 
 	char rendimiento[10];
 	short eliminado;
-	
 }; 
 
-struct trabajador* leerArchivo(int *cantidad); 
+struct trabajador* leerArchivo(long *cantidad); 
 struct trabajador RegistrarEmpleado(); 
-void guardarArchivo(struct trabajador* trabajadores, int cantidad); 
-void modificarValor(struct trabajador* trabajadores, int cantidad); 
-void MostrarEmpleados(struct trabajador* trabajadores, int cantidad); 
-void OrdenarEmpleados(struct trabajador* trabajadores, int cantidad);
-void Rendimientos(struct trabajador* trabajadores, int cantidad);
-void EliminarEmpleado (struct trabajador* trabajadores ,int cantidad);
-void SueldoTotal (struct trabajador* trabajadores , int cantidad);
-void CacheEmpleados(struct trabajador* trabajadores, int cantidad); 
+void guardarArchivo(struct trabajador* trabajadores, long cantidad); 
+void modificarValor(struct trabajador* trabajadores, long cantidad); 
+void MostrarEmpleados(struct trabajador* trabajadores, long cantidad); 
+void OrdenarEmpleados(struct trabajador* trabajadores, long cantidad);
+void Rendimientos(struct trabajador* trabajadores, long cantidad);
+void EliminarEmpleado (struct trabajador* trabajadores ,long cantidad);
+void SueldoTotal (struct trabajador* trabajadores , long cantidad);
+void CacheEmpleados(struct trabajador* trabajadores, long cantidad); 
 
 int main(){ 
 	
 	struct trabajador* trabajadores = NULL; 
-	int cantidad = 0; 
+	long cantidad = 0; 
 	short opcion; 
 	short vuelta_menu;
 	setlocale(LC_ALL, "spanish");
@@ -42,11 +40,9 @@ int main(){
 	SetConsoleOutputCP(1252); 
 	SetConsoleTitle("Control de empleados"); 
 	
-	
 	trabajadores = leerArchivo(&cantidad); 
 	
 	do{ 
-		
 		printf("=========================================\n");	
 		printf("\033[38;5;159mBienvenido al menu de gestion de personal\033[0m\n");
 		printf("=========================================\n");
@@ -59,8 +55,6 @@ int main(){
 		printf("\033[38;5;1m7\033[0m. Calcular total de sueldos\n");
 		printf("\033[38;5;1m8\033[0m. Cache de empleados eliminados\n");
 		printf("\033[38;5;1m0\033[0m. Salir\n");
-		
-		
 		
 		scanf("%hd",&opcion); 
 		borrar_pantalla;
@@ -78,14 +72,12 @@ int main(){
 			borrar_pantalla;
 			printf("\033[38;5;46m\nEmpleado registrado correctamente!\n\n\033[0m");
 			
-			
 			break; 
 		case 2: 
 			guardarArchivo(trabajadores,cantidad); 
 			printf("\nDatos Guardado!\n\n");  
 			
 			break; 
-			
 		case 3: 
 			
 			do{
@@ -106,18 +98,13 @@ int main(){
 				borrar_pantalla;
 			}
 			
-			
-			
 			break;
-			
-			
 		case 4: 
 			modificarValor(trabajadores,cantidad); 
 			borrar_pantalla;
 			printf("\033[38;5;1mDatos modificados correctamente!\n\n\033[0m");
-			break; 
 			
-			
+			break; 	
 		case 5:
 			borrar_pantalla;
 			do{
@@ -128,7 +115,6 @@ int main(){
 			}while(vuelta_menu != 0); 
 			borrar_pantalla;
 			break;
-			
 		case 6:
 			borrar_pantalla;
 			for(int i=0;i<cantidad;i++){
@@ -138,11 +124,8 @@ int main(){
 			}
 			
 			EliminarEmpleado(trabajadores , cantidad);
-			
-			
-			
+				
 			break;
-			
 		case 7:
 			SueldoTotal(trabajadores,cantidad);
 			printf("\n\033[38;5;28mPara volver al menu presione '0'\033[0m\n");
@@ -155,7 +138,7 @@ int main(){
 			CacheEmpleados(trabajadores, cantidad);
 			
 			break;
-			case 0: 
+		case 0: 
 			guardarArchivo(trabajadores,cantidad); 
 			printf("\nDatos Guardados"); 
 			break; 
@@ -164,7 +147,6 @@ int main(){
 			printf("\nOpcion invalida\n"); 
 			break; 
 		} 
-		
 	}while(opcion != 0); 
 	
 	free(trabajadores); 
@@ -172,8 +154,7 @@ int main(){
 	return 0; 
 } 
 
-
-struct trabajador* leerArchivo(int *cantidad){ 
+struct trabajador* leerArchivo(long *cantidad){ 
 	FILE* archivo = fopen("InfoEmpleados.dat","rb"); 
 	if(archivo == NULL) 
 	{ 
@@ -192,11 +173,8 @@ struct trabajador* leerArchivo(int *cantidad){
 	return trabajadores; 
 } 
 
-struct trabajador RegistrarEmpleado(struct trabajador* trabajadores , int cantidad){ 
+struct trabajador RegistrarEmpleado(struct trabajador* trabajadores , long	cantidad){ 
 	struct trabajador aux; 
-	
-	
-	
 	
 	printf("\nIngrese el ID: "); 
 	scanf(" %hd",&aux.ID); 
@@ -204,22 +182,21 @@ struct trabajador RegistrarEmpleado(struct trabajador* trabajadores , int cantid
 	printf("\nIngrese el nombre: "); 
 	scanf(" %[^\n]49s", aux.nombre);
 	
-	printf("\nIngrese el dni: ");
+	printf("\nIngrese el DNI (sin espacios): ");
 	scanf(" %ld", &aux.dni);
-	printf("\ningrese sueldo: ");
+	printf("\nIngrese sueldo: ");
 	scanf(" %f" , &aux.sueldo);
-	printf("\n Ingrese cargo: ");
+	printf("\nIngrese cargo: ");
 	scanf(" %[^\n]15s" , aux.cargo);
-	printf("\n Ingrese zona de residencia: ");
+	printf("\nIngrese zona de residencia: ");
 	scanf(" %[^\n]49s",aux.ZonaResidencia); 
 	
 	aux.eliminado = 1;
 	
 	return aux; 
-	
 } 
 
-void guardarArchivo(struct trabajador* trabajadores, int cantidad){ 
+void guardarArchivo(struct trabajador* trabajadores, long cantidad){ 
 	
 	FILE* archivo = fopen("InfoEmpleados.dat","wb"); 
 	if(archivo == NULL){ 
@@ -231,7 +208,7 @@ void guardarArchivo(struct trabajador* trabajadores, int cantidad){
 	fclose(archivo);  
 } 
 
-void modificarValor(struct trabajador* trabajadores, int cantidad){ 
+void modificarValor(struct trabajador* trabajadores, long cantidad){ 
 	short aux_ID; 
 	printf("\nIngrese ID de empleado: "); 
 	scanf("%hd",&aux_ID); 
@@ -245,17 +222,15 @@ void modificarValor(struct trabajador* trabajadores, int cantidad){
 			return; 
 		} 
 	} 
-	printf("El ID no se encuentra registrado");  
+	printf("\nEl ID no se encuentra registrado\n");  
 	return; 
 } 
 
-void MostrarEmpleados(struct trabajador* trabajadores, int cantidad){ 
-	
-	
-	
+void MostrarEmpleados(struct trabajador* trabajadores, long cantidad){ 
+		
 	if(cantidad==0) 
 	{ 
-		printf("\nNo hay empleados registrados..."); 
+		printf("\nNo hay empleados registrados...\n"); 
 		return; 
 	} 
 	
@@ -263,7 +238,6 @@ void MostrarEmpleados(struct trabajador* trabajadores, int cantidad){
 	
 	printf("|%-15s           |%-15s               |  %-5s   | %-10s |   %-10s    |  %-10s   |\n", "\033[38;5;213mNombre\033[0m","\033[38;5;213mDNI\033[0m" ,"\033[38;5;213mID\033[0m", "\033[38;5;213mZona de Residencia\033[0m", "\033[38;5;213mCargo\033[0m", "\033[38;5;213mSalario\033[0m");
 	printf("--------------------------------------------------------------------------------------------\n");
-	
 	
 	for (int i = 0; i < cantidad; i++) {
 		if(trabajadores[i].eliminado == 1){
@@ -276,15 +250,13 @@ void MostrarEmpleados(struct trabajador* trabajadores, int cantidad){
 				trabajadores[i].sueldo);
 			printf("--------------------------------------------------------------------------------------------\n");
 		}
-		
 	}
 	return; 
 }
 
-void OrdenarEmpleados(struct trabajador* trabajadores, int cantidad){
+void OrdenarEmpleados(struct trabajador* trabajadores, long cantidad){
 	struct trabajador auxiliar;
 	short i , j;
-	
 	
 	for(i = 0; i<cantidad ;i++){
 		for(j = i + 1; j < cantidad;j++){
@@ -299,7 +271,6 @@ void OrdenarEmpleados(struct trabajador* trabajadores, int cantidad){
 	printf("|%-15s         |%-15s           |   %-5s  | %-10s |   %-10s    |   %-10s  |\n", "\033[38;5;213mNombre\033[0m","\033[38;5;213mDNI\033[0m" ,"\033[38;5;213mID\033[0m", "\033[38;5;213mZona de Residencia\033[0m", "\033[38;5;213mCargo\033[0m", "\033[38;5;213mSalario\033[0m");
 	printf("-----------------------------------------------------------------------------------------\n");
 	
-	
 	for (int i = 0; i < cantidad; i++) {
 		if(trabajadores[i].eliminado == 1){
 			
@@ -312,14 +283,11 @@ void OrdenarEmpleados(struct trabajador* trabajadores, int cantidad){
 				trabajadores[i].sueldo);
 			printf("------------------------------------------------------------------------------------------\n");	
 		}
-		
-		
 	}
 	return; 
-	
 }
 
-void Rendimientos(struct trabajador* trabajadores, int cantidad){
+void Rendimientos(struct trabajador* trabajadores, long cantidad){
 	short rendimiento;
 	
 	printf("\033[38;5;1m1\033[0m. Definir rendimientos / \033[38;5;1m2\033[0m. Analizar rendimientos\n");
@@ -330,8 +298,7 @@ void Rendimientos(struct trabajador* trabajadores, int cantidad){
 			if(trabajadores[i].eliminado == 1){
 				printf("%s:" , trabajadores[i].nombre);
 				scanf("%s" , trabajadores[i].rendimiento);
-			}
-			
+			}	
 		}
 	}
 	if(rendimiento == 2){
@@ -350,11 +317,9 @@ void Rendimientos(struct trabajador* trabajadores, int cantidad){
 		}
 		
 	}
-	
-	
 }
 
-void SueldoTotal (struct trabajador* trabajadores , int cantidad){
+void SueldoTotal (struct trabajador* trabajadores , long cantidad){
 	
 	float total = 0;
 	
@@ -365,25 +330,19 @@ void SueldoTotal (struct trabajador* trabajadores , int cantidad){
 			if(trabajadores[i].eliminado == 1){
 				total += trabajadores[i].sueldo;
 			}
-			
 		}
 	}
 	printf("Sueldo total de todos los empleados: %.2f\n",total);
-	//return total;
 }
 
-void EliminarEmpleado (struct trabajador* trabajadores,int cantidad){
+void EliminarEmpleado (struct trabajador* trabajadores,long cantidad){
 	short aux_ID; 
 	char respuesta;
-	
 	
 	printf("\nIngrese ID de empleado: "); 
 	scanf(" %hd",&aux_ID); 
 	
-	
 	for(int i=0;i < cantidad;i++){ 
-		
-		
 		
 		if(aux_ID == trabajadores[i].ID){ 
 			printf("\nDesea eliminar a %s? s/n\n " , trabajadores[i].nombre); 
@@ -392,7 +351,7 @@ void EliminarEmpleado (struct trabajador* trabajadores,int cantidad){
 			if(respuesta == 's'){
 				trabajadores[i].eliminado = 0;
 				trabajadores[i].ID = 0;
-				
+				borrar_pantalla;
 				printf("\nEmpleado %s eliminado correctamente!\n\n" , trabajadores[i].nombre);
 				return;
 			}
@@ -402,18 +361,19 @@ void EliminarEmpleado (struct trabajador* trabajadores,int cantidad){
 			return;
 		}
 	}
-	printf("Empleado no registrado.");
+	borrar_pantalla;
+	printf("\nEmpleado no registrado.\n");
 	return;
 }
 
-void CacheEmpleados(struct trabajador* trabajadores, int cantidad){
+void CacheEmpleados(struct trabajador* trabajadores, long cantidad){
 
 	long aux_DNI;
 	short DNI_encontrado;
 	
 	if(cantidad==0) 
 	{ 
-		printf("\nNo hay empleados eliminados..."); 
+		printf("\nNo hay empleados eliminados...\n"); 
 		return; 
 	} 
 	
@@ -421,8 +381,7 @@ void CacheEmpleados(struct trabajador* trabajadores, int cantidad){
 	
 	printf("|%-15s           |%-15s               |  %-5s   | %-10s |   %-10s    |  %-10s   |\n", "\033[38;5;213mNombre\033[0m","\033[38;5;213mDNI\033[0m" ,"\033[38;5;213mID\033[0m", "\033[38;5;213mZona de Residencia\033[0m", "\033[38;5;213mCargo\033[0m", "\033[38;5;213mSalario\033[0m");
 	printf("--------------------------------------------------------------------------------------------\n");
-	
-	
+		
 	for (int i = 0; i < cantidad; i++) {
 		if(trabajadores[i].eliminado == 0){
 			printf("| %-15s | %-15ld  | %-5d | %-18s | %-10s |\033[38;5;22m %-10.2f \033[0m|\n", 
@@ -434,7 +393,6 @@ void CacheEmpleados(struct trabajador* trabajadores, int cantidad){
 				trabajadores[i].sueldo);
 			printf("--------------------------------------------------------------------------------------------\n");
 		}
-		
 	}
 	printf("\n\033[38;5;22mIngrese DNI del empelado que quiera volver a incorporar o ingrese 0 para volver al menu:\n  \033[0m ");
 	scanf("%ld" , &aux_DNI);
@@ -449,24 +407,15 @@ void CacheEmpleados(struct trabajador* trabajadores, int cantidad){
 				printf("\nDatos actualizados!\n\n"); 
 				return; 
 			} 
-			
 		} 
-		
 	}
 	if(DNI_encontrado != 1 && aux_DNI != 0){
 		
 		borrar_pantalla;
 		printf("\n\033[38;5;1mNo se encontro el DNI buscado\033[0m\n\n");
-		
-		
 	}
 	else if(aux_DNI==0){
 		borrar_pantalla;
 		return;
-	}
-	
-	
-	
-	
-	
+	}	
 }
