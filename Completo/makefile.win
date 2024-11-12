@@ -1,0 +1,35 @@
+# Project: Completo
+# Makefile created by Red Panda C++ 2.26.2249
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+RES      = Completo_private.res
+OBJ      = main.o $(RES)
+LINKOBJ  = main.o Completo_private.res
+CLEANOBJ  =  main.o  Completo_private.res Completo.exe
+LIBS     = 
+INCS     =  
+CXXINCS  =  
+BIN      = Completo.exe
+CXXFLAGS = $(CXXINCS)  -g3 -pipe -Wall -D__DEBUG__
+CFLAGS   = $(INCS)  -g3 -pipe -Wall -D__DEBUG__
+RM       = del /q /f
+WINDRESFLAGS  = 
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	-$(RM) $(CLEANOBJ) > NUL 2>&1
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.c
+	$(CC) -c main.c -o main.o $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=windows-1252
+
+Completo_private.res: Completo_private.rc 
+	$(WINDRES) -i Completo_private.rc --input-format=rc -o Completo_private.res -O coff $(WINDRESFLAGS) 
+
