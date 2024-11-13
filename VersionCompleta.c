@@ -19,7 +19,7 @@ struct trabajador
 }; 
 
 struct trabajador* leerArchivo(long *cantidad); 
-struct trabajador RegistrarEmpleado(); 
+struct trabajador RegistrarEmpleado(struct trabajador* trabajadores , long	cantidad); 
 void guardarArchivo(struct trabajador* trabajadores, long cantidad); 
 void modificarValor(struct trabajador* trabajadores, long cantidad); 
 void MostrarEmpleados(struct trabajador* trabajadores, long cantidad); 
@@ -68,7 +68,7 @@ int main(){
 				printf("Error al asignar memoria.\n"); 
 				break; 
 			} 
-			trabajadores[cantidad-1]=RegistrarEmpleado(); 
+			trabajadores[cantidad-1]=RegistrarEmpleado(trabajadores, cantidad); 
 			borrar_pantalla;
 			printf("\033[38;5;46m\nEmpleado registrado correctamente!\n\n\033[0m");
 			
